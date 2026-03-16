@@ -4,6 +4,7 @@ import 'package:shop/components/Home/HmHot.dart';
 import 'package:shop/components/Home/HmMoreList.dart';
 import 'package:shop/components/Home/HmSlider.dart';
 import 'package:shop/components/Home/HmSuggest.dart';
+import 'package:shop/viewmodals/home.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
@@ -13,11 +14,19 @@ class HomeView extends StatefulWidget {
 }
  
 class _HomeViewState extends State<HomeView> {
+   
+  List<BannerItem> _bannerList = [
+    BannerItem(id: "1", imageUrl: "https://img0.baidu.com/it/u=3591665277,2616537962&fm=253&app=138&f=JPEG?w=800&h=1333"),
+    BannerItem(id: "2", imageUrl: "https://img0.baidu.com/it/u=3591665277,2616537962&fm=253&app=138&f=JPEG?w=800&h=1333"),
+    BannerItem(id: "3", imageUrl: "https://img0.baidu.com/it/u=3591665277,2616537962&fm=253&app=138&f=JPEG?w=800&h=1333"),
+  ];
+
+
   List<Widget> _getScrollChildren() {
     return [
       // sliver普通组件
       SliverToBoxAdapter(
-        child: HmSlider(),
+        child: HmSlider(bannerList: _bannerList,),
       ),
       // sliver普通组件
       SliverToBoxAdapter(

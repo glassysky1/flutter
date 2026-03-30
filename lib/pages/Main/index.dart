@@ -14,24 +14,24 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final List<Map<String, dynamic>> _tabsList = [
     {
-      "icon": "lib/assets/images/ic_public_home_normal.png",
-      "activeIcon": "lib/assets/images/ic_public_home_active.png",
-      "title": "首页",
+      "icon": "lib/assets/ic_public_home_normal.png", // 正常显示的图标
+      "activeIcon": "lib/assets/ic_public_home_active.png", // 激活显示的图标
+      "text": "首页",
     },
     {
-      "icon": "lib/assets/images/ic_public_pro_normal.png",
-      "activeIcon": "lib/assets/images/ic_public_pro_active.png",
-      "title": "分类", 
+      "icon": "lib/assets/ic_public_pro_normal.png", // 正常显示的图标
+      "activeIcon": "lib/assets/ic_public_pro_active.png", // 激活显示的图标
+      "text": "分类",
     },
     {
-      "icon": "lib/assets/images/ic_public_cart_normal.png",
-      "activeIcon": "lib/assets/images/ic_public_cart_active.png",
-      "title": "购物车",
+      "icon": "lib/assets/ic_public_cart_normal.png", // 正常显示的图标
+      "activeIcon": "lib/assets/ic_public_cart_active.png", // 激活显示的图标
+      "text": "购物车",
     },
     {
-      "icon": "lib/assets/images/ic_public_my_normal.png",
-      "activeIcon": "lib/assets/images/ic_public_my_active.png",
-      "title": "我的",
+      "icon": "lib/assets/ic_public_my_normal.png", // 正常显示的图标
+      "activeIcon": "lib/assets/ic_public_my_active.png", // 激活显示的图标
+      "text": "我的",
     },
   ];
   List<BottomNavigationBarItem>  _getBottomTabBarWidgets() {
@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
       return BottomNavigationBarItem(
         icon: Image.asset(_tabsList[index]["icon"]!, width: 30, height: 30,),
         activeIcon: Image.asset(_tabsList[index]["activeIcon"]!, width: 30, height: 30,), 
-        label: _tabsList[index]["title"],
+        label: _tabsList[index]["text"],
       );
     });
   }

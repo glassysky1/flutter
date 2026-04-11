@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shop/api/mine.dart';
 import 'package:shop/components/Home/HmMoreList.dart';
 import 'package:shop/components/Mine/HmGuess.dart';
+import 'package:shop/stores/TokenManager.dart';
+import 'package:shop/stores/UserController.dart';
 import 'package:shop/viewmodals/home.dart';
+import 'package:shop/viewmodals/user.dart';
 
 class MineView extends StatefulWidget {
   MineView({Key? key}) : super(key: key);
@@ -12,17 +16,45 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+  final UserController _userController = Get.find();
   final ScrollController _controller = ScrollController();
   Widget _getLogout() {
-    return Expanded(
-      // child: GestureDetector(
-      //   onTap: () {
-
-      //   },
-      //   child: Text("退出", textAlign: TextAlign.end),
-      // )
-      child: Text(''),
-    );
+    return _userController.user.value.id.isNotEmpty
+        ? Expanded(
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("提示"),
+                      content: Text("确认退出登录吗"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("取消"),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await tokenManager.removeToken();
+                            _userController.updateUserInfo(
+                              UserInfo.fromJSON({}),
+                            );
+                            Navigator.pop(context);
+                          },
+                          child: Text("确认"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text("退出", textAlign: TextAlign.end),
+            ),
+          )
+        : Text('');
   }
 
   Widget _buildHeader() {
@@ -37,30 +69,43 @@ class _MineViewState extends State<MineView> {
       padding: const EdgeInsets.only(left: 20, right: 40, top: 80, bottom: 20),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 26,
-            backgroundImage: AssetImage('lib/assets/goods_avatar.png'),
-            backgroundColor: Colors.white,
-          ),
+          Obx(() {
+            return CircleAvatar(
+              radius: 26,
+              backgroundImage: _userController.user.value.avatar.isNotEmpty
+                  ? NetworkImage(_userController.user.value.avatar)
+                  : AssetImage('lib/assets/goods_avatar.png'),
+              backgroundColor: Colors.white,
+            );
+          }),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "/login");
-                  },
-                  child: Text(
-                    "立即登录",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ),
+                Obx(() {
+                  return GestureDetector(
+                    onTap: () {
+                      if (_userController.user.value.id.isEmpty) {
+                        Navigator.pushNamed(context, "/login");
+                      }
+                    },
+                    child: Text(
+                      _userController.user.value.id.isNotEmpty
+                          ? _userController.user.value.account
+                          : "立即登录",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                }),
                 const SizedBox(height: 12),
               ],
             ),
           ),
-          _getLogout(),
+          Obx(() => _getLogout()),
         ],
       ),
     );

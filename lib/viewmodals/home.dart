@@ -4,10 +4,7 @@ class BannerItem {
   BannerItem({required this.id, required this.imageUrl});
 
   factory BannerItem.fromJson(Map<String, dynamic> json) {
-    return BannerItem(
-      id: json["id"] ?? "",
-      imageUrl: json["imgUrl"] ?? "",
-    );
+    return BannerItem(id: json["id"] ?? "", imageUrl: json["imgUrl"] ?? "");
   }
 }
 
@@ -18,7 +15,11 @@ class CategoryItem {
   CategoryItem({required this.id, required this.imageUrl, required this.name});
 
   factory CategoryItem.fromJson(Map<String, dynamic> json) {
-    return CategoryItem(id: json["id"], imageUrl: json["picture"], name: json["name"]);
+    return CategoryItem(
+      id: json["id"],
+      imageUrl: json["picture"],
+      name: json["name"],
+    );
   }
 }
 
@@ -36,7 +37,7 @@ class GoodsItem {
     this.desc,
     required this.price,
     required this.picture,
-    required this.orderNum
+    required this.orderNum,
   });
 
   factory GoodsItem.fromJson(Map<String, dynamic> json) {
@@ -46,10 +47,11 @@ class GoodsItem {
       desc: json["desc"]?.toString(),
       price: json["price"]?.toString() ?? "",
       picture: json["picture"]?.toString() ?? "",
-      orderNum: int.tryParse(json["orderNum"]?.toString() ?? "0") ?? 0
+      orderNum: int.tryParse(json["orderNum"]?.toString() ?? "0") ?? 0,
     );
   }
 }
+
 // 特惠推荐 - 商品分页信息
 class GoodsItems {
   int counts;
@@ -62,7 +64,7 @@ class GoodsItems {
     required this.pageSize,
     required this.pages,
     required this.page,
-    required this.items
+    required this.items,
   });
   factory GoodsItems.fromJson(Map<String, dynamic> json) {
     return GoodsItems(
@@ -71,23 +73,18 @@ class GoodsItems {
       pages: int.tryParse(json["pages"]?.toString() ?? "0") ?? 0,
       page: int.tryParse(json["page"]?.toString() ?? "0") ?? 0,
       items: (json["items"] as List? ?? [])
-        .map((item) => GoodsItem.fromJson(item as Map<String, dynamic>))
-        .toList()
+          .map((item) => GoodsItem.fromJson(item as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
-
 
 // 特惠推荐 - 自类型
 class SubType {
   String id;
   String title;
   GoodsItems goodsItems;
-  SubType({
-    required this.id,
-    required this.title,
-    required this.goodsItems
-  });
+  SubType({required this.id, required this.title, required this.goodsItems});
   factory SubType.fromJson(Map<String, dynamic> json) {
     return SubType(
       id: json["id"]?.toString() ?? "",
@@ -107,15 +104,15 @@ class SpecialRecommendResult {
   SpecialRecommendResult({
     required this.id,
     required this.title,
-    required this.subTypes
+    required this.subTypes,
   });
   factory SpecialRecommendResult.fromJSON(Map<String, dynamic> json) {
     return SpecialRecommendResult(
       id: json["id"]?.toString() ?? "",
       title: json["title"]?.toString() ?? "",
       subTypes: (json["subTypes"] as List? ?? [])
-      .map((item) => SubType.fromJson(item as Map<String, dynamic>))
-      .toList()
+          .map((item) => SubType.fromJson(item as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -133,7 +130,7 @@ class GoodDetailItem extends GoodsItem {
     required super.price,
     required super.picture,
     required super.orderNum,
-    required this.payCount
+    required this.payCount,
   }) : super(desc: "");
   factory GoodDetailItem.fromJSON(Map<String, dynamic> json) {
     return GoodDetailItem(
@@ -142,7 +139,33 @@ class GoodDetailItem extends GoodsItem {
       price: json["price"]?.toString() ?? "",
       picture: json["picture"]?.toString() ?? "",
       orderNum: int.tryParse(json["orderNum"]?.toString() ?? "0") ?? 0,
-      payCount: int.tryParse(json["payCount"]?.toString() ?? "0") ?? 0
+      payCount: int.tryParse(json["payCount"]?.toString() ?? "0") ?? 0,
+    );
+  }
+}
+
+class GoodsDetailsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<GoodDetailItem> items;
+  GoodsDetailsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+  factory GoodsDetailsItems.fromJSON(Map<String, dynamic> json) {
+    return GoodsDetailsItems(
+      counts: int.tryParse(json["counts"]?.toString() ?? "0") ?? 0,
+      pageSize: int.tryParse((json["pagesSize"]?.toString() ?? "0")) ?? 0,
+      pages: int.tryParse(json["pages"]?.toString() ?? "0") ?? 0,
+      page: int.tryParse(json["page"]?.toString() ?? "0") ?? 0,
+      items: (json["items"] as List? ?? [])
+          .map((item) => GoodDetailItem.fromJSON(item as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

@@ -10,7 +10,7 @@ class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
- 
+
 class _MainPageState extends State<MainPage> {
   final List<Map<String, dynamic>> _tabsList = [
     {
@@ -34,32 +34,32 @@ class _MainPageState extends State<MainPage> {
       "text": "我的",
     },
   ];
-  List<BottomNavigationBarItem>  _getBottomTabBarWidgets() {
+  List<BottomNavigationBarItem> _getBottomTabBarWidgets() {
     return List.generate(_tabsList.length, (index) {
       return BottomNavigationBarItem(
-        icon: Image.asset(_tabsList[index]["icon"]!, width: 30, height: 30,),
-        activeIcon: Image.asset(_tabsList[index]["activeIcon"]!, width: 30, height: 30,), 
+        icon: Image.asset(_tabsList[index]["icon"]!, width: 30, height: 30),
+        activeIcon: Image.asset(
+          _tabsList[index]["activeIcon"]!,
+          width: 30,
+          height: 30,
+        ),
         label: _tabsList[index]["text"],
       );
     });
   }
-  int _currentIndex = 3;
+
+  int _currentIndex = 0;
   List<Widget> _getChildren() {
-    return [
-      HomeView(), 
-      CategoryView(),
-      CartView(),
-      MineView(), 
-    ];
+    return [HomeView(), CategoryView(), CartView(), MineView()];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: IndexedStack(
-        index: _currentIndex,
-        children: _getChildren() ,
-      )),
-      bottomNavigationBar:  BottomNavigationBar(
+      body: SafeArea(
+        child: IndexedStack(index: _currentIndex, children: _getChildren()),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
         items: _getBottomTabBarWidgets(),
         currentIndex: _currentIndex,
         showUnselectedLabels: true,
@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> {
           setState(() {
             _currentIndex = index;
           });
-        }, 
+        },
       ),
     );
   }

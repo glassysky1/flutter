@@ -13,7 +13,7 @@ class HmSlider extends StatefulWidget {
 class _HmSliderState extends State<HmSlider> {
   Widget _getSearch() {
     return Positioned(
-      top: 10,
+      top: MediaQuery.of(context).padding.top,
       left: 0,
       right: 0,
       child: Padding(
@@ -29,72 +29,76 @@ class _HmSliderState extends State<HmSlider> {
           child: Text(
             "搜索...",
             style: TextStyle(color: Colors.white, fontSize: 16),
-          )
+          ),
         ),
       ),
     );
   }
+
   CarouselSliderController _carouselController = CarouselSliderController();
   int _currentIndex = 0;
-  Widget _getSlider () {
+  Widget _getSlider() {
     // 获取屏幕宽度
     final double screenWidth = MediaQuery.of(context).size.width;
     return CarouselSlider(
       carouselController: _carouselController,
-      items: List.generate(widget.bannerList.length, (index) => 
-        Image.network(widget.bannerList[index].imageUrl!, fit: BoxFit.cover, width: screenWidth,)
-      ), 
+      items: List.generate(
+        widget.bannerList.length,
+        (index) => Image.network(
+          widget.bannerList[index].imageUrl!,
+          fit: BoxFit.cover,
+          width: screenWidth,
+        ),
+      ),
       options: CarouselOptions(
         height: 300,
         viewportFraction: 1,
-        autoPlayInterval: Duration(seconds: 1), 
+        autoPlayInterval: Duration(seconds: 1),
         autoPlay: false,
         onPageChanged: (index, reason) {
           setState(() {
             _currentIndex = index;
           });
-        }, 
+        },
       ),
-     );
+    );
   }
 
-  Widget _getDots () {
+  Widget _getDots() {
     return Positioned(
-      left: 0 ,
+      left: 0,
       right: 0,
       bottom: 10,
       child: SizedBox(
         height: 40,
-        width: double.infinity ,
+        width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(widget.bannerList.length, (index) => 
-            GestureDetector(
-              onTap: () => _carouselController.animateToPage(index), 
-              child:AnimatedContainer(
+          children: List.generate(
+            widget.bannerList.length,
+            (index) => GestureDetector(
+              onTap: () => _carouselController.animateToPage(index),
+              child: AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 margin: EdgeInsets.symmetric(horizontal: 4),
                 height: 6,
-                width: index == _currentIndex ? 40 : 20 ,
+                width: index == _currentIndex ? 40 : 20,
                 decoration: BoxDecoration(
-                  color: index == _currentIndex ? Colors.white : Color.fromRGBO(0, 0, 0, 0.3),
+                  color: index == _currentIndex
+                      ? Colors.white
+                      : Color.fromRGBO(0, 0, 0, 0.3),
                   borderRadius: BorderRadius.circular(5),
                 ),
-              )
-            )
-          )
-        )
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        _getSlider(),
-        _getSearch(),
-        _getDots()
-      ],
-    );
+    return Stack(children: [_getSlider(), _getSearch(), _getDots()]);
   }
 }

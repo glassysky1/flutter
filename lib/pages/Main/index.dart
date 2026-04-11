@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
       );
     });
   }
-  int _currentIndex = 0;
+  int _currentIndex = 3;
   List<Widget> _getChildren() {
     return [
       HomeView(), 

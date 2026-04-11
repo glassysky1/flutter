@@ -14,6 +14,6 @@ Widget getBootWidget() {
 Map<String, Widget Function(BuildContext)> getBootRoutes() {
   return {
     "/": (context) => MainPage(),
-    "login": (context) => LoginPage()
+    "/login": (context) => LoginPage()
   };
 }
